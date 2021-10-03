@@ -2,11 +2,11 @@
 $num1=10;
 $num2=5;
 //to try specific operation comment all other and uncomment it
-//$operation="addition";
+$operation="addition";
 //$operation="subtraction";
 //$operation="multiplication";
-$operation="division";
-//addition
+//$operation="division";
+
 switch($operation)
 {
     case "addition":
