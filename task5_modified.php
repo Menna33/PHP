@@ -1,14 +1,6 @@
 
 <?php
-session_start();
-function clean($input){ 
-$input = stripslashes($input);
-$input = htmlspecialchars($input);
-$input = trim($input);
-return $input;
-
-}
-
+include 'helpers.php';
 if($_SERVER['REQUEST_METHOD'] == "POST"){
   //$_POST -> array super global feeh kol el data elly fe el form
 /*print_r($_POST); //to print an array
@@ -24,26 +16,31 @@ $linkedinurl= clean($_POST['linkedinurl']);
 
 $errors = [];
 
-if(empty($name)){
-$errors['Name'] = "Field Required";
-}elseif(filter_var($name,FILTER_VALIDATE_INT)){
-    $errors['Name'] = "Invalid Name";
-}
 
-# Password Validation ... 
-if(empty($password)){
- $errors['Password'] = "Field Required";
-}elseif(strlen($password)<6&&strlen($password)>10){
-    $errors['Password'] = "The password should be at between 6 and 10 characters";
-}
+if(!validate($name,1)){
+    $errors['Name'] = "Field Required";
+ }elseif(!validate($name,5))
+ {$errors['Name'] = "Invalid Name";}
 
-# Email Validation ... 
-if(empty($email)){
- $errors['Email'] = "Field Required";
-}elseif(!filter_var($email,FILTER_VALIDATE_EMAIL)){
- $errors['Email'] = "Invalid Email";
-}
+ # Password Validation ... 
+ if(!validate($password,1)){
+     $errors['Password'] = "Field Required";
+ }elseif(!validate($password,3) ){
+     $errors['Password'] = "Password Length Must >= 6 ch";
+ }
 
+   # Email Validation ... 
+   if(!validate($email,1)){
+     $errors['Email'] = "Field Required";
+ }elseif(!validate($email,2)){
+     $errors['Email'] = "Invalid Email";
+ }
+   # linked Validation ... 
+ if(!validate($linkedinurl,1)){
+     $errors['linkedinurl'] = "Field Required";
+ }elseif(!validate($linkedinurl,4)){
+     $errors['linkedinurl'] = "Invalid Url";
+ }
 # Address Validation ... 
 if(empty($address)){
     $errors['address'] = "Field Required";
@@ -56,13 +53,6 @@ if(isset($_POST['gender'])){
   $gender= clean($_POST['gender']);
 }
 else{$errors['gender'] = "Field Required";}
-
-# LinkedInUrl Validation ... 
-if(empty($linkedinurl)){
-    $errors['linkedinurl'] = "Field Required";
-   }elseif(!filter_var($linkedinurl,FILTER_VALIDATE_URL)){
-    $errors['linkedinurl'] = "Invalid URL";
-   }
 
 # File Valdiation
 if(!empty($_FILES['pdf_file']['name'])){
