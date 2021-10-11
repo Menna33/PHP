@@ -77,10 +77,12 @@ if(!empty($_FILES['image']['name'])){
       
      // db code .... 
 
-     $sql = "insert into articals (title,content) values ('$title','$content')";
+     $sql = "insert into articales (title,content,image) values ('$title','$content','$FinalName')";
 
      $op  =  mysqli_query($con,$sql);
-     $op1  =  mysqli_query($con,$insert_img); //for inserting img
+
+      //echo   mysqli_error($con);
+        //exit();
 
      if($op){
          echo 'Data Inserted';
@@ -88,11 +90,7 @@ if(!empty($_FILES['image']['name'])){
          echo 'Error in DB Try Again';
      }
 
-     if($op1){
-        echo 'Image Inserted';
-    }else{
-        echo 'Error in DB Try Again';
-    }
+  
      # close connection ... 
      mysqli_close($con);
 
